@@ -1,0 +1,7 @@
+.section-head{
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    color: var(--ink);
+    margin-bottom: 14px;
+    color: var(--green)
+}
+section{padding: 100px 5%;}

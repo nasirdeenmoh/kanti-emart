@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Kanti Plus - Great Store, Great Value</title>
+    <style>
+        /* ── Reset & Base ── */
+        *, *::before, *::after { padding: 0; margin: 0; box-sizing: border-box; }
+
+        :root {
+            --green:   #00A650;
+            --green-l: #00C060;
+            --red:     #E8001D;
+            --cream:   #F4FFF8;
+            --ink:     #111111;
+            --muted:   #5A6B5A;
+            --card:    #FFFFFF;
+            --border:  #D6EFE0;
+            --radius:  14px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--cream);
+            color: var(--ink);
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'DM Serif Display', serif; line-height: 1.15; }
+        p { font-family: 'Outfit', sans-serif; }
+
+        img { display: block; max-width: 100%; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ── Nav ── */
+        .nav-bar {
+            width: 100%;
+            position: fixed;
+            top: 0; left: 0; right: 0; z-index: 999;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 2px solid var(--green);
+            padding: 0 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 68px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand img {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.25rem;
+            color: var(--green);
+            letter-spacing: -0.02em;
+        }
+
+        .links ul {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .links ul li a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+
+        .links ul li a:hover { color: var(--green); }
+
+        .nav-cta {
+            background: var(--green);
+            color: #fff !important;
+            padding: 8px 20px;
+            border-radius: 999px;
+            font-size: 0.88rem !important;
+            font-weight: 600 !important;
+            transition: background 0.2s !important;
+        }
+
+        .nav-cta:hover { background: var(--green-l) !important; color: #fff !important; }
+
+        /* ── Hero ── */
+        .hero {
+            min-height: 100vh;
+            padding: 68px 5% 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -120px; right: -120px;
+            width: 560px; height: 560px;
+            background: radial-gradient(circle, rgba(26,107,60,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-left { padding-top: 40px; animation: fadeUp 0.8s ease both; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(26,107,60,0.1);
+            border: 1px solid rgba(26,107,60,0.2);
+            color: var(--green);
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 5px 14px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .hero-badge i { font-size: 0.7rem; }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 5vw, 3.6rem);
+            color: var(--ink);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--red);
+        }
+
+        .hero .subheadline {
+            font-size: 1.05rem;
+            color: var(--muted);
+            max-width: 440px;
+            margin-bottom: 36px;
+            font-weight: 400;
+        }
+
+        .CTA {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .shop {
+            background: var(--green);
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .shop:hover { background: var(--green-l); transform: translateY(-2px); }
+
+        .findStore {
+            background: transparent;
+            color: var(--ink);
+            border: 1.5px solid var(--border);
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .findStore:hover { border-color: var(--green); color: var(--green); }
+
+        .hero-right {
+            position: relative;
+            height: 520px;
+            animation: fadeUp 0.8s 0.15s ease both;
+        }
+
+        .hero-img-main {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 24px 24px 80px 24px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+        }
+
+        .hero-float-card {
+            position: absolute;
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 18px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero-float-card.card-1 {
+            bottom: 36px; left: -40px;
+        }
+
+        .hero-float-card.card-2 {
+            top: 36px; right: -30px;
+        }
+
+        .float-icon {
+            width: 42px; height: 42px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .float-icon.green { background: rgba(26,107,60,0.12); color: var(--green); }
+        .float-icon.gold  { background: rgba(232,0,29,0.12); color: var(--red); }
+
+        .float-text .label { font-size: 0.7rem; color: var(--muted); font-weight: 500; }
+        .float-text .val   { font-size: 1rem; font-weight: 700; color: var(--ink); }
+
+        /* ── Stats ── */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metric {
+            background: var(--card);
+            padding: 36px 28px;
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        .metric:hover { background: var(--cream); }
+
+        .metric .value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.4rem;
+            color: var(--green);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .metric p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        /* ── Section Heads ── */
+        .section-label {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 10px;
+        }
+
+        .section-head {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            color: var(--ink);
+            margin-bottom: 14px;
+        }
+
+        .section-sub {
+            font-size: 1rem;
+            color: var(--muted);
+            max-width: 480px;
+        }
+
+        /* ── Why Us ── */
+        .whyus {
+            padding: 100px 5%;
+        }
+
+        .whyus-header {
+            margin-bottom: 56px;
+        }
+
+        .perks {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .perk {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .perk:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(26,107,60,0.1);
+        }
+
+        .perk .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px; height: 50px;
+            background: rgba(26,107,60,0.09);
+            color: var(--green);
+            border-radius: 12px;
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+        }
+
+        .perk .alias {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        .perk .info {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ── Categories ── */
+        .categories {
+            padding: 0 5% 100px;
+        }
+
+        .categories-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .see-all {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--green);
+            border-bottom: 1.5px solid var(--green);
+            padding-bottom: 2px;
+        }
+
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+
+        .cat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        .cat-card:hover {
+            background: var(--green);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(26,107,60,0.2);
+        }
+
+        .cat-card:hover .cat-icon { background: rgba(255,255,255,0.2); color: #fff; }
+        .cat-card:hover .cat-name { color: #fff; }
+
+        .cat-icon {
+            width: 52px; height: 52px;
+            background: rgba(26,107,60,0.09);
+            color: var(--green);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+            margin: 0 auto 14px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .cat-name {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--ink);
+            transition: color 0.2s;
+        }
+
+        /* ── Products ── */
+        .product-gallery {
+            padding: 0 5% 100px;
+        }
+
+        .gallery-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tab {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            color: var(--muted);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 7px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab.active, .tab:hover {
+            background: var(--green);
+            border-color: var(--green);
+            color: #fff;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #F0EDE6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px; left: 12px;
+            background: var(--red);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+
+        .product-body {
+            padding: 16px 18px 20px;
+        }
+
+        .product-cat {
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--green);
+            margin-bottom: 4px;
+        }
+
+        .product-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1rem;
+            color: var(--ink);
+            margin-bottom: 10px;
+        }
+
+        .product-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .product-price span {
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-weight: 400;
+            text-decoration: line-through;
+            margin-left: 4px;
+        }
+
+        .add-btn {
+            width: 34px; height: 34px;
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .add-btn:hover { background: var(--green-l); }
+
+        /* ── Banner ── */
+        .promo-banner {
+            margin: 0 5% 100px;
+            background: var(--green);
+            border-radius: 24px;
+            padding: 64px 60px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: 200px;
+            width: 300px; height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .promo-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -60px; right: 100px;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 50%;
+        }
+
+        .promo-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #ffb3bb;
+            margin-bottom: 12px;
+        }
+
+        .promo-banner h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+            color: #fff;
+            margin-bottom: 14px;
+        }
+
+        .promo-banner p {
+            color: rgba(255,255,255,0.75);
+            font-size: 1rem;
+            max-width: 440px;
+        }
+
+        .promo-actions { display: flex; gap: 14px; margin-top: 28px; }
+
+        .btn-white {
+            background: #fff;
+            color: var(--green);
+            border: none;
+            padding: 13px 30px;
+            border-radius: 999px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-white:hover { opacity: 0.9; }
+
+        .btn-ghost-white {
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,0.4);
+            padding: 13px 30px;
+            border-radius: 999px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .btn-ghost-white:hover { border-color: #fff; }
+
+        .promo-visual {
+            font-size: 7rem;
+            animation: float 3s ease-in-out infinite;
+            position: relative; z-index: 1;
+        }
+
+        /* ── Reviews ── */
+        .reviews-section {
+            padding: 0 5% 100px;
+        }
+
+        .reviews-header { margin-bottom: 48px; }
+
+        .reviews {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .review {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px 26px;
+            transition: transform 0.2s;
+        }
+
+        .review:hover { transform: translateY(-3px); }
+
+        .stars {
+            font-size: 1.1rem;
+            color: var(--red);
+            margin-bottom: 14px;
+        }
+
+        .review .text {
+            font-size: 0.92rem;
+            color: var(--ink);
+            line-height: 1.7;
+            margin-bottom: 22px;
+        }
+
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .reviewer span img {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+
+        .reviewer .name {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--ink);
+        }
+
+        /* ── Stores ── */
+        .stores-section {
+            padding: 0 5% 100px;
+        }
+
+        .stores-header { 
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .store-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .store-img {
+            height: 180px;
+            background: linear-gradient(135deg, #1A6B3C 0%, #2A8C51 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+
+        .store-body { padding: 20px 22px; }
+
+        .store-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+
+        .store-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .store-meta span {
+            font-size: 0.8rem;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .store-meta i { color: var(--green); font-size: 0.75rem; }
+
+        .store-tag {
+            display: inline-block;
+            background: rgba(26,107,60,0.09);
+            color: var(--green);
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+
+        /* ── Newsletter ── */
+        .newsletter {
+            margin: 0 5% 100px;
+            background: var(--cream);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 64px;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            margin-bottom: 12px;
+        }
+
+        .newsletter p {
+            color: var(--muted);
+            max-width: 440px;
+            margin: 0 auto 32px;
+        }
+
+        .nl-form {
+            display: flex;
+            gap: 10px;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .nl-input {
+            flex: 1;
+            padding: 13px 18px;
+            border: 1.5px solid var(--border);
+            border-radius: 999px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .nl-input:focus { border-color: var(--green); }
+
+        .nl-btn {
+            background: var(--green);
+            color: #fff;
+            border: none;
+            padding: 13px 24px;
+            border-radius: 999px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .nl-btn:hover { background: var(--green-l); }
+
+        /* ── Footer ── */
+        footer {
+            background: var(--ink);
+            color: rgba(255,255,255,0.7);
+            padding: 72px 5% 32px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand .brand-name-f {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .footer-brand .brand-sub {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 14px;
+        }
+
+        .footer-brand p {
+            font-size: 0.88rem;
+            line-height: 1.7;
+            max-width: 260px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .social-btn {
+            width: 36px; height: 36px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85rem;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .social-btn:hover { background: var(--green); color: #fff; }
+
+        .footer-col h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 18px;
+        }
+
+        .footer-col ul { display: flex; flex-direction: column; gap: 10px; }
+
+        .footer-col ul li a {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+            transition: color 0.2s;
+        }
+
+        .footer-col ul li a:hover { color: #fff; }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.82rem;
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-12px); }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .perks, .cat-grid { grid-template-columns: repeat(2, 1fr); }
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; padding-top: 88px; }
+            .hero-right { display: none; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .reviews { grid-template-columns: 1fr; }
+            .store-grid { grid-template-columns: 1fr; }
+            .promo-banner { grid-template-columns: 1fr; }
+            .promo-visual { display: none; }
+            .categories-header, .gallery-header, .stores-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .links { display: none; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .nl-form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── NAV ── -->
+    <div class="nav-bar">
+        <div class="brand">
+            <img src="assets/brand/logo.jpg" alt="KantiPlus">
+            <span class="brand-name">KantiPlus</span>
+        </div>
+        <div class="links">
+            <ul>
+                <li><a href="./">Home</a></li>
+                <li><a href="pages/order.html">Order</a></li>
+                <li><a href="pages/about.html">About</a></li>
+                <li><a href="pages/Contact.html">Contact</a></li>
+                <li><a href="pages/order.html" class="nav-cta">Shop Now</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ── HERO ── -->
+    <section class="hero">
+        <div class="hero-left">
+            <div class="hero-badge"><i class="fa-solid fa-circle-check"></i> Nigeria's Favourite Supermarket</div>
+            <h1>More Than a Supermarket — It's <em>KantiPlus.</em></h1>
+            <p class="subheadline">Your destination for fresh food, everyday essentials, and better value — all in one place.</p>
+            <div class="CTA">
+                <button class="shop">Explore KantiPlus</button>
+                <button class="findStore"><i class="fa-solid fa-location-dot" style="margin-right:7px;"></i>Find a Store</button>
+            </div>
+        </div>
+        <div class="hero-right">
+            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=700&q=80" alt="Fresh Produce at KantiPlus" class="hero-img-main">
+            <div class="hero-float-card card-1">
+                <div class="float-icon green"><i class="fa-solid fa-truck"></i></div>
+                <div class="float-text">
+                    <div class="label">Delivery</div>
+                    <div class="val">Same Day</div>
+                </div>
+            </div>
+            <div class="hero-float-card card-2">
+                <div class="float-icon gold"><i class="fa-solid fa-star"></i></div>
+                <div class="float-text">
+                    <div class="label">Rating</div>
+                    <div class="val">4.1 / 5</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── STATS ── -->
+    <section class="stats">
+        <div class="metric">
+            <h3 class="value">50K+</h3>
+            <p>Happy Customers</p>
+        </div>
+        <div class="metric">
+            <h3 class="value">10K+</h3>
+            <p>Products</p>
+        </div>
+        <div class="metric">
+            <h3 class="value">15+</h3>
+            <p>Store Locations</p>
+        </div>
+        <div class="metric">
+            <h3 class="value">4.1</h3>
+            <p>Average Rating</p>
+        </div>
+    </section>
+
+    <!-- ── WHY US ── -->
+    <section class="whyus">
+        <div class="whyus-header">
+            <div class="section-label">Why KantiPlus</div>
+            <h2 class="section-head">The KantiPlus Difference</h2>
+            <p class="section-sub">We go beyond just stocking shelves — we deliver an experience worth coming back for.</p>
+        </div>
+        <div class="perks">
+            <div class="perk">
+                <span class="icon"><i class="fa-solid fa-truck"></i></span>
+                <h3 class="alias">Fast Delivery</h3>
+                <p class="info">Quick and reliable delivery right to your door. Same-day service available in select areas.</p>
+            </div>
+            <div class="perk">
+                <span class="icon"><i class="fa-solid fa-tag"></i></span>
+                <h3 class="alias">Best Prices</h3>
+                <p class="info">Great value and unbeatable deals across thousands of products every single day.</p>
+            </div>
+            <div class="perk">
+                <span class="icon"><i class="fa-solid fa-store"></i></span>
+                <h3 class="alias">Many Stores</h3>
+                <p class="info">15+ locations offering groceries, fashion, electronics, dining, and much more.</p>
+            </div>
+            <div class="perk">
+                <span class="icon"><i class="fa-solid fa-star"></i></span>
+                <h3 class="alias">Quality Products</h3>
+                <p class="info">Shop trusted brands and high-quality products carefully selected for our customers.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CATEGORIES ── -->
+    <section class="categories">
+        <div class="categories-header">
+            <div>
+                <div class="section-label">Browse</div>
+                <h2 class="section-head">Shop by Category</h2>
+            </div>
+            <a href="pages/order.html" class="see-all">View All <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="cat-grid">
+            <div class="cat-card">
+                <div class="cat-icon"><i class="fa-solid fa-apple-whole"></i></div>
+                <div class="cat-name">Fresh Produce</div>
+            </div>
+            <div class="cat-card">
+                <div class="cat-icon"><i class="fa-solid fa-bread-slice"></i></div>
+                <div class="cat-name">Bakery</div>
+            </div>
+            <div class="cat-card">
+                <div class="cat-icon"><i class="fa-solid fa-fish"></i></div>
+                <div class="cat-name">Meat & Fish</div>
+            </div>
+            <div class="cat-card">
+                <div class="cat-icon"><i class="fa-solid fa-bottle-water"></i></div>
+                <div class="cat-name">Beverages</div>
+            </div>
+            <div class="cat-card">
+                <div class="cat-icon"><i class="fa-solid fa-jar"></i></div>
+                <div class="cat-name">Pantry</div>
+            </div>
+            <div class="cat-card">
+                <div class="cat-icon"><i class="fa-solid fa-soap"></i></div>
+                <div class="cat-name">Household</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PRODUCTS ── -->
+    <section class="product-gallery">
+        <div class="gallery-header">
+            <div>
+                <div class="section-label">Featured</div>
+                <h2 class="section-head">Popular Products</h2>
+            </div>
+            <div class="filter-tabs">
+                <button class="tab active">All</button>
+                <button class="tab">Fresh</button>
+                <button class="tab">Pantry</button>
+                <button class="tab">Drinks</button>
+            </div>
+        </div>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-img" style="font-size:3.5rem;">🥦
+                    <div class="product-badge">Fresh</div>
+                </div>
+                <div class="product-body">
+                    <div class="product-cat">Vegetables</div>
+                    <div class="product-name">Organic Broccoli</div>
+                    <div class="product-bottom">
+                        <div class="product-price">₦850 <span>₦1,100</span></div>
+                        <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img" style="font-size:3.5rem;">🍚
+                    <div class="product-badge">Sale</div>
+                </div>
+                <div class="product-body">
+                    <div class="product-cat">Grains</div>
+                    <div class="product-name">Premium Basmati Rice 5kg</div>
+                    <div class="product-bottom">
+                        <div class="product-price">₦4,200 <span>₦5,000</span></div>
+                        <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img" style="font-size:3.5rem;">🥛</div>
+                <div class="product-body">
+                    <div class="product-cat">Dairy</div>
+                    <div class="product-name">Fresh Whole Milk 1L</div>
+                    <div class="product-bottom">
+                        <div class="product-price">₦1,200</div>
+                        <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img" style="font-size:3.5rem;">🍹
+                    <div class="product-badge">New</div>
+                </div>
+                <div class="product-body">
+                    <div class="product-cat">Beverages</div>
+                    <div class="product-name">Tropical Juice Mix Pack</div>
+                    <div class="product-bottom">
+                        <div class="product-price">₦2,600 <span>₦3,200</span></div>
+                        <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PROMO BANNER ── -->
+    <section class="promo-banner">
+        <div>
+            <div class="promo-label">Limited Time Offer</div>
+            <h2>Up to 30% Off on Fresh Produce This Weekend</h2>
+            <p>Don't miss out — stock up on your favourites at unbeatable prices. Available at all KantiPlus locations.</p>
+            <div class="promo-actions">
+                <button class="btn-white">Shop the Sale</button>
+                <button class="btn-ghost-white">Find Nearest Store</button>
+            </div>
+        </div>
+        <div class="promo-visual">🛒</div>
+    </section>
+
+    <!-- ── REVIEWS ── -->
+    <section class="reviews-section">
+        <div class="reviews-header">
+            <div class="section-label">Testimonials</div>
+            <h2 class="section-head">What Our Customers Say</h2>
+        </div>
+        <div class="reviews">
+            <div class="review">
+                <div class="stars">★★★★★</div>
+                <div class="text">"A very good supermarket where you can get much of everything with a good price!"</div>
+                <div class="reviewer">
+                    <span><img src="https://lh3.googleusercontent.com/a-/ALV-UjWXB3ygvDKKdeFMtm0kfuxgqErdVN0iMXeIooJT8BruXuUYA1gl0g=w72-h72-p-rp-mo-ba3-br100" alt="Ahmadu"></span>
+                    <p class="name">Ahmadu Bello</p>
+                </div>
+            </div>
+            <div class="review">
+                <div class="stars">★★★★★</div>
+                <div class="text">"Lots of stuff at great prices. Well maintained and stocked. If you love your snacks, highly recommended. Staff is friendly too."</div>
+                <div class="reviewer">
+                    <span><img src="https://lh3.googleusercontent.com/a-/ALV-UjW3rM6WcpIwjVdiln3sj_BfJMd_omTBfB9q0lN4ckMNKpfwifLA=w72-h72-p-rp-mo-ba3-br100" alt="Chioma"></span>
+                    <p class="name">Chioma Ohazulike</p>
+                </div>
+            </div>
+            <div class="review">
+                <div class="stars">★★★★☆</div>
+                <div class="text">"Kanti-Plus seems bigger and more attractive. It allows small discounts and often offers helping hands to customers. Prices are quite reasonable."</div>
+                <div class="reviewer">
+                    <span><img src="https://lh3.googleusercontent.com/a-/ALV-UjVRAnEAxlfkEmmB7di_vo4BxLEDdfPOlIG2nYRQRh-K02xTYrI=w72-h72-p-rp-mo-ba2-br100" alt="Ahmed"></span>
+                    <p class="name">Ahmed Bolakale Sulu-Gambari</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── STORES ── -->
+    <section class="stores-section">
+        <div class="stores-header">
+            <div>
+                <div class="section-label">Locations</div>
+                <h2 class="section-head">Find a Store Near You</h2>
+            </div>
+            <a href="pages/Contact.html" class="see-all">All Locations <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="store-grid">
+            <div class="store-card">
+                <div class="store-img">🏪</div>
+                <div class="store-body">
+                    <div class="store-name">Wuse II Branch</div>
+                    <div class="store-meta">
+                        <span><i class="fa-solid fa-location-dot"></i> Abuja, FCT</span>
+                        <span><i class="fa-solid fa-clock"></i> 7am – 10pm</span>
+                    </div>
+                    <span class="store-tag">Open Now</span>
+                </div>
+            </div>
+            <div class="store-card">
+                <div class="store-img">🏬</div>
+                <div class="store-body">
+                    <div class="store-name">Maitama Branch</div>
+                    <div class="store-meta">
+                        <span><i class="fa-solid fa-location-dot"></i> Abuja, FCT</span>
+                        <span><i class="fa-solid fa-clock"></i> 8am – 9pm</span>
+                    </div>
+                    <span class="store-tag">Open Now</span>
+                </div>
+            </div>
+            <div class="store-card">
+                <div class="store-img">🛒</div>
+                <div class="store-body">
+                    <div class="store-name">Garki Branch</div>
+                    <div class="store-meta">
+                        <span><i class="fa-solid fa-location-dot"></i> Abuja, FCT</span>
+                        <span><i class="fa-solid fa-clock"></i> 7am – 10pm</span>
+                    </div>
+                    <span class="store-tag">Open Now</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── NEWSLETTER ── -->
+    <section class="newsletter">
+        <div class="section-label">Stay Updated</div>
+        <h2 class="section-head">Get Deals Straight to Your Inbox</h2>
+        <p>Subscribe for weekly promotions, new arrivals, and exclusive member-only discounts.</p>
+        <div class="nl-form">
+            <input class="nl-input" type="email" placeholder="Enter your email address">
+            <button class="nl-btn">Subscribe</button>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="brand-name-f">KantiPlus</div>
+                <div class="brand-sub">Super Market</div>
+                <p>Your destination for fresh food, everyday essentials, and better value — all in one place across Nigeria.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="pages/about.html">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="pages/order.html">All Products</a></li>
+                    <li><a href="#">Weekly Deals</a></li>
+                    <li><a href="#">Fresh Produce</a></li>
+                    <li><a href="#">Household</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Help</h4>
+                <ul>
+                    <li><a href="pages/Contact.html">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Delivery Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 KantiPlus. All rights reserved.</span>
+            <span>Privacy Policy · Terms of Service</span>
+        </div>
+    </footer>
+
+    <script>
+        // Filter tabs
+        document.querySelectorAll('.tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Scroll fade-in for sections
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.perk, .review, .store-card, .product-card, .cat-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
