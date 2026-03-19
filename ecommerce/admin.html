@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KantiPlus | Admin Orders</title>
+    <style>
+        :root {
+            --green: #00A859;
+            --background: #F4F7F6;
+            --card-bg: #FFFFFF;
+            --ink: #1F2937;
+            --muted: #6B7280;
+            --border: #E5E7EB;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--background); margin: 0; padding: 20px; color: var(--ink); }
+        .container { max-width: 1000px; margin: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card { background: var(--card-bg); border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; background: #D1FAE5; color: var(--green); }
+        .text-sm { font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; }
+        .font-semibold { font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="color: var(--green); margin: 0;">📦 Admin Orders</h1>
+            <a href="index.html" style="color: var(--muted); text-decoration: none; font-weight: 600;">&larr; Back to Shop</a>
+        </div>
+        <div id="ordersGrid" class="grid">
+            <p>Loading orders...</p>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { supabase } from './src/services/supabaseClient.js';
+        
+        async function loadOrders() {
+            const grid = document.getElementById('ordersGrid');
+            const { data, error } = await supabase
+                .from('orders')
+                .select('*')
+                .order('created_at', { ascending: false });
+                
+            if (error) {
+                console.error("Orders access exception:", error);
+                grid.innerHTML = '<p style="color: red;">Error loading orders.</p>';
+                return;
+            }
+            
+            if (data.length === 0) {
+                grid.innerHTML = '<p>No orders received yet.</p>';
+                return;
+            }
+            
+            grid.innerHTML = data.map(order => `
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span class="font-semibold">${order.payment_reference}</span>
+                        <span class="badge">${order.status.toUpperCase()}</span>
+                    </div>
+                    <div class="text-sm" style="color: var(--ink);"><strong>Total:</strong> ₦${order.total_amount.toLocaleString('en-NG')}</div>
+                    <div class="text-sm"><strong>Date:</strong> ${new Date(order.created_at).toLocaleString()}</div>
+                    <hr style="border: none; border-top: 1px solid var(--border); margin: 10px 0;">
+                    <div class="text-sm" style="color: var(--ink);"><strong>Delivery Details:</strong></div>
+                    <div class="text-sm">📍 ${order.street_address || 'N/A'}, ${order.area_landmark || 'N/A'}</div>
+                    <div class="text-sm">📞 ${order.phone_number || 'N/A'}</div>
+                    ${order.delivery_instructions ? `<div class="text-sm">📝 <em>${order.delivery_instructions}</em></div>` : ''}
+                </div>
+            `).join('');
+        }
+        
+        loadOrders();
+    </script>
+</body>
+</html>
