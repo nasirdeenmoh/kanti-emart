@@ -6,17 +6,17 @@
     <div class="stats">
         <div class="stat-card">
             <span class="icon"><i class="hgi hgi-stroke hgi-money-01"></i></span>
-            <span class="revenue">$12232</span>
+            <span class="revenue" id="revenue">0</span>
             <span class="sub-text">Total Revenue</p>
         </div>
         <div class="stat-card">
             <span class="icon"><i class="hgi hgi-stroke hgi-shopping-cart-check-out-02"></i></span>
-            <span class="revenue">1,234</span>
+            <span class="revenue" id="orders">0</span>
             <span class="sub-text">Total Orders</p>
         </div>
         <div class="stat-card">
             <span class="icon"><i class="hgi hgi-stroke hgi-user-multiple-02"></i></span>
-            <span class="revenue">8,234</span>
+            <span class="revenue" id="customers">0</span>
             <span class="sub-text">Total Customers</p>
         </div>
     </div>
@@ -25,65 +25,8 @@
             <div class="head">
                 <h1 class="head">Recent Orders</h1>
             </div>
-            <div class="body">
-
-                <div class="item">
-                    <div class="multiple">
-                        <span class="order-id">#1</span>
-                        <span class="name sub-item">Nasirdeen</span>
-                    </div>
-                    <div class="multiple">
-                        <span class="price">$243.00</span>
-                        <span class="time sub-item">2 min ago.</span>
-                    </div>
-                    <span class="status pending">Pending</span>
-                </div>
-                <div class="item">
-                    <div class="multiple">
-                        <span class="order-id">#1</span>
-                        <span class="name sub-item">Nasirdeen</span>
-                    </div>
-                    <div class="multiple">
-                        <span class="price">$243.00</span>
-                        <span class="time sub-item">2 min ago.</span>
-                    </div>
-                    <span class="status pending">Pending</span>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="head">
-                <h1 class="head">Top Products</h1>
-            </div>
-            <div class="body">
-
-                <div class="items">
-                    <div class="left">
-                        <span class="product-rank">#1</span>
-                        <div class="multiple">
-                            <span class="product-name">Wireless Headphones</span>
-                            <span class="sub-item">342 sales</span>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <span class="total-revenue-recieved">$27,560</span>
-                    </div>
-                </div>
-                <div class="items">
-                    <div class="left">
-                        <span class="product-rank">#1</span>
-                        <div class="multiple">
-                            <span class="product-name">Wireless Headphones</span>
-                            <span class="sub-item">342 sales</span>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <span class="total-revenue-recieved">$27,560</span>
-                    </div>
-                </div>
-
+            <div class="body orders-body">
+                <p class="grid-loading">Loading Recent Orders.</p>
             </div>
         </div>
     </div>

@@ -246,7 +246,7 @@ body {
 /* MULTI CARD */
 .multi-card {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 14px;
 }
 
@@ -411,7 +411,12 @@ body {
 }
 
 .orders-search input::placeholder { color: var(--text-muted); }
+.orders-body {
+    max-height: 320px;
+    overflow-y: auto;
+}
 
+.orders-body::-webkit-scrollbar { display: none; }
 .btn {
     display: flex;
     align-items: center;
@@ -936,4 +941,17 @@ body {
 }
 .editProduct .form-group {
     margin-bottom: 4px;
+}
+.grid-loading {
+    color: var(--text-muted);
+    font-size: 13px;
+    text-align: center;
+    grid-column: 1 / -1;
+    padding: 40px 0;
+}
+.table-loading {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    padding: 40px 0;
 }

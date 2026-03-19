@@ -13,8 +13,12 @@ await authenticateUser()
 async function updateProducts(){
     const categories = ['Electronics', 'Sports', 'Food', 'Health']
     const product_grid = document.querySelector('.products-grid')
-    product_grid.innerHTML = ""
     const products = await admin.getProducts()
+    if(products.length == 0){
+        document.querySelector('.grid-loading').innerHTML = 'No Products Found'
+        return
+    }
+    product_grid.innerHTML = ""
         products.forEach(product => {
             const productImage = product.image_url ? `<img src="${product.image_url}">` : '<i class="hgi hgi-stroke hgi-package"></i>'
             const inStock = product.stock_count > 0 ? 'In Stock' : 'Out of Stock'
@@ -31,7 +35,7 @@ async function updateProducts(){
                     <span class="status ${stockStatus}">${inStock}</span>
                 </div>
                 <div class="product-price-row">
-                    <span class="product-price">${product.price}</span>
+                    <span class="product-price">${admin.formatCurrency(product.price)}</span>
                     <span class="product-stock">Stock: ${product.stock_count ? product.stock_count : 0} units</span>
                 </div>
                 <div class="product-actions">
@@ -257,6 +261,163 @@ async function initPageScript(page){
             submitBtn.disabled = false
         })
     }
+    else if(page == 'orders'){
+        const orders = await admin.getOrders()
+        const orders_container = document.querySelector('.orders-container')
+        if (orders.length == 0){
+            document.querySelector('.table-loading').innerHTML = 'No orders processed yet'
+            return
+        }
+        orders_container.innerHTML = ''
+        orders.forEach(order => {
+            const isPaid = order.status == 'paid' ? "delivered" : 'pending'
+            const template = `
+                <tr>
+                    <td class="order-id">#${order.id}</td>
+                    <td class='order-uid'>${order.user_id}</td>
+                    <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                    <td>${order.items.length}</td>
+                    <td class='order-amount'>${admin.formatCurrency(order.total_amount)}</td>
+                    <td><span class="status ${isPaid}">${order.status}</span></td>
+                </tr>
+            `
+            console.log(template)
+            orders_container.insertAdjacentHTML('beforeend', template)
+        })
+        const searchInput = document.querySelector('.orders-search input')
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim()
+
+            document.querySelectorAll('.orders-table tbody tr').forEach(row => {
+                const orderId = row.querySelector('.order-id')?.textContent.toLowerCase()
+                const userId = row.querySelector('.order-uid')?.textContent.toLowerCase()
+                const amount = row.querySelector('.order-amount')?.textContent.toLowerCase()
+
+                const matches = orderId?.includes(query) || 
+                                userId?.includes(query) || 
+                                amount?.includes(query)
+
+                row.style.display = matches ? '' : 'none'
+            })
+        })
+    }
+    else if(page == 'customers'){
+        const customerGrid = document.querySelector('.customers-grid')
+        const roles = ['Admin', 'Manager', 'Staff']
+        const users =  await admin.getUsers()
+        if(users.length == 0){
+            document.querySelector('.grid-loading').innerHTML = 'No Users Found.'
+            return
+        }
+        customerGrid.innerHTML =""
+        users.forEach(async (user) => {
+            let totalOrder = 0
+            let totalAmount = 0
+            const userName = user.full_name
+            const userInitials = userName.split(' ')
+            if (user){
+                const orders = await admin.getOrderFromUser(user.id)
+                orders.forEach(order => {
+                    totalOrder += order.items.length
+                    totalAmount += parseInt(order.total_amount)
+                })
+            }
+            let isBlocked = user.blocked ? 'Unblock' : 'Block'
+            const template = `
+            <div class="customer-card">
+            <div class="customer-header">
+                <span class="customer-avatar">${userInitials[0][0]}${userInitials[1][0]}</span>
+                <div class="customer-info">
+                    <span class="customer-name">${userName}</span>
+                    <span class="customer-id">${user.id}</span>
+                </div>
+            </div>
+            <div class="customer-stats">
+                <div>
+                    <p class="stat-label">Total Orders</p>
+                    <p class="stat-value">${totalOrder}</p>
+                </div>
+                <div>
+                    <p class="stat-label">Total Spent</p>
+                    <p class="stat-value">${totalAmount}</p>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-full">${isBlocked}</button>
+        </div>
+            `
+            customerGrid.insertAdjacentHTML('beforeend', template)
+        })
+
+        const searchInput = document.querySelector('.customers-toolbar .orders-search input')
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim()
+
+            document.querySelectorAll('.customer-card').forEach(card => {
+                const name = card.querySelector('.customer-name')?.textContent.toLowerCase()
+                const id = card.querySelector('.customer-id')?.textContent.toLowerCase()
+
+                const matches = name?.includes(query) || id?.includes(query)
+                card.style.display = matches ? '' : 'none'
+            })
+        })
+    }
+    else if(page =='dashboard'){
+        const revenueEl = document.querySelector('#revenue')
+        const ordersEl = document.querySelector('#orders')
+        const customersEl = document.querySelector('#customers')
+        const orders = await admin.getOrders()
+        const customers = await admin.getUsers()
+        let totalRev = 0
+        let totalOrder = 0
+        let totalCustomers = 0
+
+        orders.forEach(order => {
+            totalRev += parseInt(order.total_amount)
+            totalOrder += 1
+        })
+        customers.forEach(customer => {
+            totalCustomers += 1
+        })
+        revenueEl.innerHTML = admin.formatCurrency(totalRev)
+        ordersEl.innerHTML = totalOrder
+        customersEl.innerHTML = totalCustomers
+
+        async function recentOrder(){
+            const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+
+            const { data: recentOrders } = await supabase
+                .from('orders')
+                .select('id, total_amount, user_id, status, created_at')
+                .gte('created_at', oneHourAgo)
+                .order('created_at', { ascending: false })
+                return recentOrders
+        }
+        const recentOrders = await recentOrder()
+        if(recentOrders.length == 0){
+            document.querySelector('.orders-body').querySelector('.grid-loading').innerHTML = 'No recent orders found'
+            return
+        }
+        document.querySelector('.orders-body').innerHTML = ''
+        let orderNo = 1
+        recentOrders.forEach(order => {
+            const template = `<div class="item">
+                    <div class="multiple">
+                        <span class="order-id">#${orderNo}</span>
+                        <span class="name sub-item">${order.user_id.slice(0, 4)}...</span>
+                    </div>
+                    <div class="multiple">
+                        <span class="price">${admin.formatCurrency(order.total_amount)}</span>
+                        <span class="time sub-item">Price</span>
+                    </div>
+                    <span class="status pending">${order.status}</span>
+                </div>`
+
+            document.querySelector('.orders-body').insertAdjacentHTML('beforeend', template)
+                
+        })
+    }
 }
 
 async function switchPages(page){
@@ -272,4 +433,6 @@ navArray.forEach(el => {
         await initPageScript(el.dataset.page)
     })
 })
+await switchPages('dashboard')
+await initPageScript('dashboard')
 

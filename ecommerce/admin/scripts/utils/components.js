@@ -34,6 +34,34 @@ const admin = {
         if(!error){
             return data
         }
+    },
+    getOrders: async () => {
+        const {data, error} = await supabase.from('orders').select('*')
+        if(!error){
+            return data
+        }
+    },
+    getOrderFromUser: async (uid) => {
+        const {data, error} = await supabase.from('orders').select('*').eq('user_id', uid)
+        if(!error){
+            return data
+        }
+        else{
+            alert('error')
+        }
+    },
+    getUsers : async () => {
+        const {data, error} = await supabase.from('profiles').select('*')
+        if(!error){
+            return data
+        }
+    },
+    formatCurrency: (amount) =>{
+        const formatted = new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: 'NGN'
+        }).format(amount)
+        return formatted
     }
 }
 export { user, admin }
