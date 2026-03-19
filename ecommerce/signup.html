@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/basicStyles.css">
+    <title>Sign Up - Kanti Plus</title>
+    <style>
+        body { background: var(--cream); color: var(--ink); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .auth-card { background: var(--card); padding: 40px; border-radius: var(--radius); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--border); }
+        .auth-title { font-family: 'Jost', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--ink); margin-bottom: 24px; }
+        .input-group { margin-bottom: 16px; text-align: left; }
+        .input-group label { display: block; font-size: 0.9rem; margin-bottom: 8px; font-weight: 600; color: var(--muted); }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        .input-group input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 2px rgba(0, 168, 89, 0.2); }
+        .btn-submit { background: var(--green); color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+        .btn-submit:hover { background: var(--green-l); }
+        .auth-footer { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+        .auth-footer a { color: var(--green); text-decoration: none; font-weight: 600; }
+        .auth-footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <h1 class="auth-title">Create Account</h1>
+        <form id="signupForm">
+            <div class="input-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" required placeholder="John Doe">
+            </div>
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" required placeholder="you@example.com">
+                <span class="error-msg" id="emailError" style="color: var(--red); font-size: 0.8rem; display: none; margin-top: 4px;">Invalid email format.</span>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required placeholder="••••••••" minlength="6">
+                <span class="error-msg" id="passwordError" style="color: var(--red); font-size: 0.8rem; display: none; margin-top: 4px;">Must be 8+ chars, 1 number, 1 special char.</span>
+            </div>
+            <button type="submit" class="btn-submit" id="submitBtn" disabled>Sign Up</button>
+        </form>
+        <div class="auth-footer">
+            Already have an account? <a href="login.html">Login</a>
+        </div>
+    </div>
+    <script type="importmap">
+        {
+            "imports": {
+                "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
+            }
+        }
+    </script>
+    <script type="module">
+        import { handleSignUp, validateFormFields } from './src/services/authService.js';
+        
+        const fullNameEl = document.getElementById('fullName');
+        const emailEl = document.getElementById('email');
+        const passEl = document.getElementById('password');
+        const btn = document.getElementById('submitBtn');
+        const emailErr = document.getElementById('emailError');
+        const passErr = document.getElementById('passwordError');
+        
+        function checkValidity() {
+            const { isEmailValid, isPassValid } = validateFormFields(emailEl.value, passEl.value);
+            
+            if (emailEl.value.length > 0 && !isEmailValid) {
+                emailErr.style.display = 'block';
+            } else {
+                emailErr.style.display = 'none';
+            }
+
+            if (passEl.value.length > 0 && !isPassValid) {
+                passErr.style.display = 'block';
+            } else {
+                passErr.style.display = 'none';
+            }
+
+            btn.disabled = !(isEmailValid && isPassValid && fullNameEl.value.trim().length > 0);
+        }
+
+        emailEl.addEventListener('input', checkValidity);
+        passEl.addEventListener('input', checkValidity);
+        fullNameEl.addEventListener('input', checkValidity);
+
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = fullNameEl.value;
+            const email = emailEl.value;
+            const password = passEl.value;
+            
+            try {
+                btn.disabled = true;
+                btn.textContent = 'Creating account...';
+                await handleSignUp(email, password, fullName);
+                window.location.href = 'index.html';
+            } catch (err) {
+                alert(err.message || 'Sign up failed.');
+                btn.disabled = false;
+                btn.textContent = 'Sign Up';
+            }
+        });
+    </script>
+</body>
+</html>
