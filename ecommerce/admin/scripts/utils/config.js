@@ -1,0 +1,4 @@
+const supabase_url = "https://zfvwjycqjddewtqekwij.supabase.co"
+const supabase_anon_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmdndqeWNxamRkZXd0cWVrd2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MTM2MDYsImV4cCI6MjA4OTM4OTYwNn0.fmwXO8uhhjIeMMq21mE1WgnTvY4lW2ESUclBkO3HFJI"
+const supabase = window.supabase.createClient(supabase_url, supabase_anon_key)
+export {supabase}
