@@ -40,7 +40,7 @@ export async function initializePaystack(deliveryDetails) {
     if (btnText) btnText.textContent = 'Processing...';
 
     let handler = PaystackPop.setup({
-        key: 'pk_test_3efbe88f5a91a48b41e06ddffc2aa43b0c2e8010',
+        key: 'pk_live_2cf2736bf5cb7cf98ec104f185502424611c0b2c',
         email: user.email,
         amount: amountInKobo,
         currency: 'NGN',
