@@ -24,7 +24,17 @@ body {
     color: var(--text);
     min-height: 100vh;
 }
-
+div.loading{
+    display: none;
+}
+/* .loading-bar{
+    position: fixed;
+    top: 0;
+    height: 5px;
+    background: black;
+    left: 320px;
+    width: 100%;
+} */
 /* LAYOUT */
 .container {
     display: flex;

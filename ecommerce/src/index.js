@@ -391,16 +391,24 @@ function createProductCard(product) {
     // Safely extract joined category name
     const categoryName = (product.categories && product.categories.name) ? product.categories.name : '';
 
-    card.innerHTML = `
+    card.innerHTML = `<div class="product-card">
+    <div class="product-img-wrap">
         <img src="${imgUrl}" alt="${product.name}">
-        <p style="font-size: 0.75rem; color: var(--green); margin-bottom: 2px; font-weight: bold;">${categoryName}</p>
+    </div>
+    <div class="product-body">
+        <p class="product-category-tag">${categoryName}</p>
         <h3 class="product-title">${product.name}</h3>
-        <p class="product-weight">${product.weight_volume || 'N/A'}</p>
+        <p class="product-desc">${product.description ?? ''}</p>
+        <p class="product-weight">${product.weight_volume != 'false' ? product.weight_volume : ''}</p>
+        ${product.stock < 10 ? `<p class="low-stock">Only ${product.stock} left in stock!</p>` : ''}
         <div class="product-footer">
             <span class="product-price">${formatCurrency(product.price)}</span>
-            <button class="add-to-cart" aria-label="Add to cart" data-id="${product.id}">🛒</button>
+            <button class="add-to-cart" data-id="${product.id}">
+                <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+            </button>
         </div>
-    `;
+    </div>
+</div>`;
 
     // Add to cart event
     const btn = card.querySelector('.add-to-cart');

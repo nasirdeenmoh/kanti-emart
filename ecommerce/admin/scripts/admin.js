@@ -40,7 +40,7 @@ async function updateProducts(){
                 </div>
                 <div class="product-actions">
                     <button class="btn btn-primary product-edit" data-id="${product.id}" id='editBtn'><i class="hgi hgi-stroke hgi-pencil-edit-01"></i> Edit</button>
-                    <button class="btn btn-danger" id='deleteBtn' data-id="${product.id}"><i class="hgi hgi-stroke hgi-delete-02"></i></button>
+                    <button class="btn btn-danger" id='deleteBtn' data-id="${product.id}" data-image="${product.image_url}"> <i class="hgi hgi-stroke hgi-delete-02"></i></button>
                 </div>
             </div>
         </div>
@@ -107,11 +107,20 @@ async function initPageScript(page){
             if(e.target.closest('#deleteBtn')){
                 console.log('click')
                 const deleteBtn = e.target.closest('#deleteBtn')
-
                 const productId = deleteBtn.dataset.id
                 const confirmed = confirm('Are you sure you want to delete this product?')
                 if (!confirmed) return
 
+                let imageUrl = deleteBtn.dataset.image
+                const fileName = imageUrl.split('/').pop()
+                const { error: storageError } = await supabase.storage
+                    .from('products')
+                    .remove([fileName])
+
+                if (storageError) {
+                    console.error('Failed to delete image:', storageError.message)
+                    return false
+                }
                 const { error } = await supabase
                     .from('products')
                     .delete()
@@ -264,6 +273,24 @@ async function initPageScript(page){
     else if(page == 'orders'){
         const orders = await admin.getOrders()
         const orders_container = document.querySelector('.orders-container')
+        orders_container.addEventListener('click', async (e) => {
+            const button = e.target
+            if(button.id == 'approve-btn'){
+                const confirmed = confirm("Are you sure you want to approve this order? ")
+                if(!confirmed) return
+                button.innerHTML = 'Approving...'
+                button.disabled = true
+                const approved = await admin.approveOrder(button.dataset.id)
+                if(approved){
+                    button.innerHTML = 'Approved'
+                }
+                else{
+                    button.innerHTML = '<i style="pointer-events: none;" class="hgi hgi-stroke hgi-checkmark-circle-02"></i> Approve'
+                    button.disabled = false
+                    alert('Failed to approve order, check your internet connection and try again')
+                }
+            }
+        })
         if (orders.length == 0){
             document.querySelector('.table-loading').innerHTML = 'No orders processed yet'
             return
@@ -271,6 +298,7 @@ async function initPageScript(page){
         orders_container.innerHTML = ''
         orders.forEach(order => {
             const isPaid = order.status == 'paid' ? "delivered" : 'pending'
+            const isApproved = order.isApproved ? 'Approved' : 'Approve'
             const template = `
                 <tr>
                     <td class="order-id">#${order.id}</td>
@@ -279,6 +307,11 @@ async function initPageScript(page){
                     <td>${order.items.length}</td>
                     <td class='order-amount'>${admin.formatCurrency(order.total_amount)}</td>
                     <td><span class="status ${isPaid}">${order.status}</span></td>
+                    <td>
+                        <button ${isApproved.toLowerCase() == 'approved'? 'disabled' : ''} class="btn btn-primary approve-order" data-id="${order.id}" style="padding: 5px 12px; font-size: 12px;" id="approve-btn">
+                            <i style="pointer-events: none; ${isApproved == 'Approved' ? 'display: none;' : ''}" class="hgi hgi-stroke hgi-checkmark-circle-02"></i> ${isApproved}
+                        </button>
+                    </td>
                 </tr>
             `
             console.log(template)
@@ -411,7 +444,7 @@ async function initPageScript(page){
                         <span class="price">${admin.formatCurrency(order.total_amount)}</span>
                         <span class="time sub-item">Price</span>
                     </div>
-                    <span class="status pending">${order.status}</span>
+                    <span class="status delivered">${order.status}</span>
                 </div>`
 
             document.querySelector('.orders-body').insertAdjacentHTML('beforeend', template)

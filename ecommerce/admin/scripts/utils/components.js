@@ -56,12 +56,21 @@ const admin = {
             return data
         }
     },
-    formatCurrency: (amount) =>{
+    formatCurrency: (amount) => {
         const formatted = new Intl.NumberFormat('en-NG', {
             style: 'currency',
             currency: 'NGN'
         }).format(amount)
         return formatted
+    },
+    approveOrder: async (orderId) => {
+        const {data, error} = await supabase.from('orders').update({isApproved: true}).eq('id', orderId)
+        if(!error){
+            return 'approved'
+        }
+        else{
+            return null
+        }
     }
 }
 export { user, admin }

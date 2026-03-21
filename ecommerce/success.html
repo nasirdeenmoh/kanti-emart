@@ -1,122 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../styles/basicStyles.css">
-    <title>Checktout Success - Kanti Plus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Checkout Success - Kanti Plus</title>
     <style>
+        :root {
+            --green: #00A650;
+            --green-l: #009444;
+            --green-light: #00A65012;
+            --green-mid: #00A65025;
+            --cream: #F7F8F5;
+            --card: #ffffff;
+            --ink: #1A1F16;
+            --muted: #6B7566;
+            --border: #E8EDE5;
+            --radius: 14px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            background-color: var(--cream);
+            background: var(--cream);
             color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00A65015, transparent 70%);
+            top: -120px; right: -120px;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00A65010, transparent 70%);
+            bottom: -80px; left: -80px;
+            pointer-events: none;
         }
 
         .success-card {
             background: var(--card);
-            padding: 40px;
-            border-radius: var(--radius);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            max-width: 450px;
-            width: 90%;
             border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px 28px 24px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.07);
+            position: relative;
+            z-index: 1;
+            animation: fadeUp 0.35s ease both;
         }
 
-        .success-icon {
-            font-size: 4rem;
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-icon-wrap {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: var(--green-light);
+            border: 5px solid #00A65018;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .success-icon-wrap i {
+            font-size: 1.5rem;
             color: var(--green);
-            margin-bottom: 20px;
         }
 
         .success-title {
             font-family: 'Jost', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 1.35rem;
+            font-weight: 800;
             color: var(--ink);
-            margin-bottom: 12px;
+            letter-spacing: -0.3px;
+            margin-bottom: 6px;
         }
 
         .success-msg {
-            font-size: 1rem;
+            font-size: 0.85rem;
             color: var(--muted);
-            margin-bottom: 24px;
             line-height: 1.5;
+            margin-bottom: 18px;
         }
 
         .ref-box {
-            background-color: var(--background);
-            border: 1px dashed var(--border);
-            padding: 16px;
-            border-radius: var(--radius);
-            margin-bottom: 30px;
+            background: var(--cream);
+            border: 1.5px dashed #b2d8be;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .ref-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .ref-label {
-            font-size: 0.85rem;
+            font-size: 0.7rem;
             color: var(--muted);
-            margin-bottom: 4px;
-            display: block;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .ref-number {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: var(--green);
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
+        }
+
+        .ref-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            background: var(--green-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 16px;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 0;
+            margin-bottom: 20px;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            flex: 1;
+        }
+
+        .step-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--green-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green);
+            font-size: 0.7rem;
+        }
+
+        .step-label {
+            font-size: 0.65rem;
+            color: var(--muted);
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .step-line {
+            height: 2px;
+            flex: 1;
+            background: var(--green-mid);
+            margin-top: 13px;
         }
 
         .btn-home {
-            background-color: var(--green);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--green);
             color: white;
             text-decoration: none;
-            padding: 12px 24px;
+            padding: 11px 24px;
             border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
             font-weight: 600;
-            display: inline-block;
-            transition: background 0.2s;
+            transition: background 0.2s, box-shadow 0.2s;
+            width: 100%;
         }
 
         .btn-home:hover {
-            background-color: var(--green-l);
+            background: var(--green-l);
+            box-shadow: 0 5px 16px rgba(0,166,80,0.28);
+        }
+
+        .brand-tag {
+            margin-top: 14px;
+            font-size: 0.73rem;
+            color: var(--muted);
+        }
+
+        .brand-tag span {
+            color: var(--green);
+            font-weight: 600;
         }
     </style>
 </head>
 
 <body>
     <div class="success-card">
-        <div class="success-icon">
-            <i class="fa-solid fa-circle-check"></i>
-        </div>
-        <h1 class="success-title">Payment Successful!</h1>
-        <p class="success-msg">Thank you for your purchase. Your order has been placed successfully and stock has been updated.</p>
-        
-        <div class="ref-box">
-            <span class="ref-label">Transaction Reference</span>
-            <span class="ref-number" id="txRef">Loading...</span>
+
+        <div class="success-icon-wrap">
+            <i class="fa-solid fa-check"></i>
         </div>
 
-        <a href="index.html" class="btn-home">Return to Store</a>
+        <h1 class="success-title">Payment Successful!</h1>
+        <p class="success-msg">Your order has been placed and will be on its way shortly.</p>
+
+        <div class="ref-box">
+            <div class="ref-left">
+                <span class="ref-label">Transaction Reference</span>
+                <span class="ref-number" id="txRef">Loading...</span>
+            </div>
+            <div class="ref-icon">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-dot"><i class="fa-solid fa-check"></i></div>
+                <span class="step-label">Order<br>Placed</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-dot"><i class="fa-solid fa-box"></i></div>
+                <span class="step-label">Being<br>Packed</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-dot"><i class="fa-solid fa-truck"></i></div>
+                <span class="step-label">On the<br>Way</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-dot"><i class="fa-solid fa-house"></i></div>
+                <span class="step-label">Delivered</span>
+            </div>
+        </div>
+
+        <a href="index.html" class="btn-home">
+            <i class="fa-solid fa-store"></i>
+            Return to Store
+        </a>
+
+        <p class="brand-tag">Powered by <span>Kanti Plus</span></p>
+
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const ref = urlParams.get('ref');
-            
-            if (ref) {
-                document.getElementById('txRef').textContent = ref;
-            } else {
-                document.getElementById('txRef').textContent = 'N/A';
-            }
-        });
+            const urlParams = new URLSearchParams(window.location.search)
+            const ref = urlParams.get('ref')
+            document.getElementById('txRef').textContent = ref || 'N/A'
+        })
     </script>
 </body>
-
 </html>
