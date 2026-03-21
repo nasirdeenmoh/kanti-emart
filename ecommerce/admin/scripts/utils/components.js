@@ -3,6 +3,9 @@ import { supabase } from "./config.js";
 const user = {
     getUID: async () => {
         const {data: {session}} = await supabase.auth.getSession()
+        if(!session){
+            return null
+        }
         const UID = session.user.id
         return UID
     },

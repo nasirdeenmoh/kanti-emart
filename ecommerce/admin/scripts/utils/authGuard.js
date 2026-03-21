@@ -4,6 +4,7 @@ import { user } from "./components.js";
 async function authenticateUser(){
     const {data, error} = await supabase.auth.getSession()
     if(error || !data.session){
+        window.location.href = './auth/signin.html'
     }
     else{
         const uid = await user.getUID()
