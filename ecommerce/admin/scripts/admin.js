@@ -11,7 +11,7 @@ await startup()
 await authenticateUser()
 
 async function updateProducts(){
-    const categories = ['Electronics', 'Sports', 'Food', 'Health']
+    const categories = ['Household', 'Cosmetics', 'Babies Corner', 'Perfumery', 'Food/Drinks', 'Snacks']
     const product_grid = document.querySelector('.products-grid')
     const products = await admin.getProducts()
     if(products.length == 0){
@@ -29,7 +29,7 @@ async function updateProducts(){
                 ${productImage}
             </div>
             <div class="product-body">
-                <span class="product-category">${categories[Number(product.category_id)]}</span>
+                <span class="product-category">${categories[Number(product.category_id) - 1]}</span>
                 <div class="product-title-row">
                     <span class="product-name">${product.name}</span>
                     <span class="status ${stockStatus}">${inStock}</span>

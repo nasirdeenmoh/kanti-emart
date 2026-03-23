@@ -39,7 +39,10 @@ const admin = {
         }
     },
     getOrders: async () => {
-        const {data, error} = await supabase.from('orders').select('*')
+        const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .order('isApproved', { ascending: true }) 
         if(!error){
             return data
         }

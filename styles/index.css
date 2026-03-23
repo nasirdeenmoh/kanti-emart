@@ -201,16 +201,35 @@ section:not(.hero, .stats){
     border-radius: var(--radius);
     overflow: hidden;
 }
-.store-img{
+.store-img {
+    height: 220px;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+}
+
+.store-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; /* shows the storefront signage */
+    background: #f5f5f5;
+    transition: transform 0.3s ease;
+}
+
+.store-img:hover img {
+    transform: scale(1.04); /* subtle zoom on hover */
+}
+/* .store-img {
     height: 180px;
-    background: linear-gradient(135deg, #1A6B3C 0%, #2A8C51 100%);
+    background: url('https://lh3.googleusercontent.com/gps-cs-s/AHVAwerhn25TzKbvDbl14Wxy38sOcF4McuGD3rfwGwc5jczg0awnfO0nNgxBSqokY_aQcp12l_pf6YATDBH9Gx858yUzMNoqnr5rn0ujB5QQbOy7NkfXHtVM-H2im6AxKEH41YpyHTIt=s680-w680-h510-rw') no-repeat center center / contain;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3.5rem;
-    background: url('../assets/brand/urimi.jpg') no-repeat center center / cover;
 }
-
+.store-img.alkaliRd{
+    background: url('https://scontent-los4-1.xx.fbcdn.net/v/t39.30808-6/533366328_741977945357152_6232941415469567635_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=13d280&_nc_ohc=Nvyr8dp4BJ8Q7kNvwF1imrN&_nc_oc=AdojuPXA2Mz_EiMGe11YRZjYXYAddABzp1rDO7iiHnfl_h1GghgSx6gQT38UdUee7JA&_nc_zt=23&_nc_ht=scontent-los4-1.xx&_nc_gid=uLoUk5EG5v4J3YT1lZRyLA&_nc_ss=7a30f&oh=00_AfwClUsGS90dhBrITJ2r2u_qB77acIW2_G35NdXDZD47DA&oe=69C6083A') no-repeat center center / contain;;
+} */
 /* Google Maps iframe inside store card */
 .store-map {
     height: 200px;
